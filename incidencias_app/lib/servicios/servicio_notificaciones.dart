@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:incidencias_app/configuracion/configuracion_api.dart';
 
 class ServicioNotificaciones {
-  static const String _urlBase = 'http://10.168.13.192:8080';
 
   Future<List<Map<String, dynamic>>> listarPropias(String token) async {
     final respuesta = await http
         .get(
-          Uri.parse('$_urlBase/api/notificaciones'),
+          Uri.parse('${ConfiguracionApi.urlBase}/api/notificaciones'),
           headers: _encabezados(token),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ConfiguracionApi.tiempoEspera);
 
     final datos = _decodificar(respuesta);
 
@@ -34,10 +34,10 @@ class ServicioNotificaciones {
   }) async {
     final respuesta = await http
         .put(
-          Uri.parse('$_urlBase/api/notificaciones/$notificacionId/leida'),
+          Uri.parse('${ConfiguracionApi.urlBase}/api/notificaciones/$notificacionId/leida'),
           headers: _encabezados(token),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ConfiguracionApi.tiempoEspera);
 
     final datos = _decodificar(respuesta);
 

@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:incidencias_app/configuracion/configuracion_api.dart';
 
 class ServicioAdministracionUsuarios {
-  static const String _urlBase = 'http://10.0.2.2:8080';
 
   Future<List<Map<String, dynamic>>> listar(String token) async {
     final respuesta = await http
         .get(
-          Uri.parse('$_urlBase/api/usuarios/administracion'),
+          Uri.parse('${ConfiguracionApi.urlBase}/api/usuarios/administracion'),
           headers: _encabezados(token),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ConfiguracionApi.tiempoEspera);
 
     final datos = _decodificar(respuesta);
 
@@ -35,11 +35,11 @@ class ServicioAdministracionUsuarios {
   }) async {
     final respuesta = await http
         .put(
-          Uri.parse('$_urlBase/api/usuarios/$usuarioId/estado'),
+          Uri.parse('${ConfiguracionApi.urlBase}/api/usuarios/$usuarioId/estado'),
           headers: _encabezados(token),
           body: jsonEncode({'activo': activo}),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ConfiguracionApi.tiempoEspera);
 
     return _validarObjeto(respuesta, 'No se pudo cambiar el estado del usuario.');
   }
@@ -51,11 +51,11 @@ class ServicioAdministracionUsuarios {
   }) async {
     final respuesta = await http
         .put(
-          Uri.parse('$_urlBase/api/usuarios/$usuarioId/rol'),
+          Uri.parse('${ConfiguracionApi.urlBase}/api/usuarios/$usuarioId/rol'),
           headers: _encabezados(token),
           body: jsonEncode({'rol': rol}),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ConfiguracionApi.tiempoEspera);
 
     return _validarObjeto(respuesta, 'No se pudo cambiar el rol del usuario.');
   }

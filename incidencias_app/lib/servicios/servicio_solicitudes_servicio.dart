@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:incidencias_app/configuracion/configuracion_api.dart';
 
 class ServicioSolicitudesServicio {
-  static const String _urlBase = 'http://10.168.13.192:8080';
 
   Future<List<Map<String, dynamic>>> listarPorIncidencia({
     required String token,
@@ -12,11 +12,11 @@ class ServicioSolicitudesServicio {
     final respuesta = await http
         .get(
           Uri.parse(
-            '$_urlBase/api/incidencias/$incidenciaId/solicitudes-servicio',
+            '${ConfiguracionApi.urlBase}/api/incidencias/$incidenciaId/solicitudes-servicio',
           ),
           headers: _encabezados(token),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ConfiguracionApi.tiempoEspera);
 
     final datos = _decodificar(respuesta);
 
@@ -44,7 +44,7 @@ class ServicioSolicitudesServicio {
     final respuesta = await http
         .post(
           Uri.parse(
-            '$_urlBase/api/incidencias/$incidenciaId/solicitudes-servicio',
+            '${ConfiguracionApi.urlBase}/api/incidencias/$incidenciaId/solicitudes-servicio',
           ),
           headers: _encabezados(token),
           body: jsonEncode({
@@ -52,7 +52,7 @@ class ServicioSolicitudesServicio {
             'descripcion': descripcion,
           }),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ConfiguracionApi.tiempoEspera);
 
     final datos = _decodificar(respuesta);
 
@@ -76,13 +76,13 @@ class ServicioSolicitudesServicio {
     final respuesta = await http
         .put(
           Uri.parse(
-            '$_urlBase/api/incidencias/$incidenciaId/'
+            '${ConfiguracionApi.urlBase}/api/incidencias/$incidenciaId/'
             'solicitudes-servicio/$solicitudId/estado',
           ),
           headers: _encabezados(token),
           body: jsonEncode({'estado': estado}),
         )
-        .timeout(const Duration(seconds: 20));
+        .timeout(ConfiguracionApi.tiempoEspera);
 
     final datos = _decodificar(respuesta);
 
